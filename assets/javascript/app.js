@@ -53,7 +53,6 @@ function questionTimer() {
 }
 clearInterval(countdownTimer)
 function countdown() {
-    console.log('counting down' + counter)
     if (counter > 0) {
         $('#seconds').text(counter)
         counter--
@@ -68,7 +67,6 @@ function countdown() {
 
 //onclick start button
 $('#start').on('click', function () {
-    console.log('clicked on start button')
     newGame()
 })
 
@@ -76,7 +74,6 @@ $('#start').on('click', function () {
 $(document).on('click', '.choice', function () {
     // variable of this's value attribute parsed to int
     var selected = parseInt($(this).attr('data-choiceIndex'))
-    console.log('clicked a choice with index: ' + selected)
     // check func (pass selected choice)
     $('#answer').empty()
     check(selected)
@@ -84,7 +81,6 @@ $(document).on('click', '.choice', function () {
 
 //newGame func
 function newGame() {
-    console.log('new game func')
     //start button display none
     $('#start').css('display', 'none')
     $('#question').css('visibility', 'visible')
@@ -98,7 +94,6 @@ function newGame() {
 
 //ask question func
 function askQ() {
-    console.log('ask func')
     //Go to next question object
     activeQIndex++
     //if questions remain
@@ -123,7 +118,6 @@ function askQ() {
 
 //Check func (pass selected choice)
 function check(selection) {
-    console.log('check func')
     //clear interval timer
     $('#countdown').css('visibility', 'hidden')
     clearInterval(countdownTimer)
@@ -146,12 +140,11 @@ function check(selection) {
 
 //End Game func
 function endGame() {
-    console.log('end game func')
     $('#question').css('visibility', 'hidden')
     //count correct answers
     var numCorrect = 0
     questions.forEach(function (question) {
-        if (question.isCorrect = true) {
+        if (question.isCorrect === true) {
             numCorrect++
         }
     })
