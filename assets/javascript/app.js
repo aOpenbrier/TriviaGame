@@ -4,10 +4,10 @@ let questions = [
         question: 'What is Anya most afraid of?',
         choices: ['Bunnies', 'Humans', 'Slayers', 'Spike'],
         correctIndex: 0, //index of correct choice
-        isCorrect: false, //player selected correct answer
+        isCorrect: false, //did player select correct answer
     },
     {
-        question: 'How many times does Buffy Die',
+        question: 'How many times does Buffy die',
         choices: ['3', '2', '1', 'none'],
         correctIndex: 1,
         isCorrect: false,
@@ -49,10 +49,11 @@ var countdownTimer
 function questionTimer() {
     clearInterval(countdownTimer)
     countdownTimer = setInterval(countdown, 1000)
+    $('#countdown').css('visibility', 'visible')
 }
 clearInterval(countdownTimer)
 function countdown() {
-    console.log('counting down')
+    console.log('counting down' + counter)
     if (counter > 0) {
         $('#seconds').text(counter)
         counter--
@@ -60,7 +61,7 @@ function countdown() {
     else {
         $('#seconds').text('0')
         
-        $('#answer').html('<h2>Time is up!</h2>')
+        $('#answer').html('Time is up!')
         check(-1)
     }
 }
@@ -98,21 +99,20 @@ function newGame() {
 //ask question func
 function askQ() {
     console.log('ask func')
-    //if activeQindex < questions.length
-    if (activeQIndex < questions.length - 1) {
-        //add 1 to activeQI
-        activeQIndex++
-        //set question timer
-        $('#countdown').css('visibility', 'visible')
+    //Go to next question object
+    activeQIndex++
+    //if questions remain
+    if (activeQIndex < questions.length) {
+        //Set question time limit
         counter = 10
         questionTimer()
-        //ask the question
-        $('#question').html(`<h2>${questions[activeQIndex].question}</h2>`)
-        //for each loop of question.choices array
+        //Display the question
+        $('#question').html(questions[activeQIndex].question)
+        //Display the choices
         $('#answer').empty()
         questions[activeQIndex].choices.forEach(function (choice, choiceIndex) {
             //display choice as div, add class "choice" value of .choices' index
-            $('#answer').append(`<h2 class='choice' data-choiceIndex='${choiceIndex}'>${choice}</h2>`)
+            $('#answer').append(`</h3><h3 class='choice' data-choiceIndex='${choiceIndex}'>${choice}`)
         })
     }
     else { //no questions remain    
@@ -131,17 +131,16 @@ function check(selection) {
     nextQuestion()
     //is selected index same as correctIndex of questions[active Q index]
     if (selection === questions[activeQIndex].correctIndex) {
-        console.log('correct index is ' + questions[activeQIndex].correctIndex)
         //set iscorrect to true
         questions[activeQIndex].isCorrect = true
         //display congrats message and correct answer
-        $('#answer').html(`<h2>${questions[activeQIndex].choices[questions[activeQIndex].correctIndex]}</h2>`)
-        $('#answer').append('<h2>Correct!</h2>')
+        $('#answer').html(questions[activeQIndex].choices[questions[activeQIndex].correctIndex])
+        $('#answer').append('</h3><h3>Correct!')
     }
     else {
         //display sorry message and correct answer
-        $('#answer').append('<h2>Sorry, the correct answer was</h2>')
-        $('#answer').append(`<h2>${questions[activeQIndex].choices[questions[activeQIndex].correctIndex]}</h2>`)
+        $('#answer').append('</h3><h3>Sorry, the correct answer was</h3>')
+        $('#answer').append(`</h3><h3>${questions[activeQIndex].choices[questions[activeQIndex].correctIndex]}`)
     }
 }
 
@@ -157,7 +156,7 @@ function endGame() {
         }
     })
     //display number of correct answer
-    $('#answer').html(`<h3>You got ${numCorrect} correct</h3>`)
+    $('#answer').html(`You got ${numCorrect} correct`)
     //change start button text to "start over"
     $('#start').text('Start Over')
     //start button display block
